@@ -6,20 +6,19 @@ void main() {
 }
 
 class MyApp extends StatelessWidget{
-  const MyApp({super.key});
+  const MyApp({Key? key}):super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home:GuessGame(key:key),
-      color: Colors.black87,
+    return const MaterialApp(
+      home:GuessGame(),
       title: "guess game",
     );
   }
 }
 
 class GuessGame extends StatefulWidget{
-  const GuessGame({super.key});
+  const GuessGame({Key? key}):super(key: key);
 
   @override
   State<StatefulWidget> createState() => _GuessGame();
@@ -29,24 +28,20 @@ class _GuessGame extends State<GuessGame>{
   final startControl= TextEditingController(text:"0");
   final endControl = TextEditingController(text:"10");
   final playercontrol = TextEditingController(); 
-  
+  int startNumber = 0;
+  int endNumber = 10;
+  int number = Random().nextInt(10);
+
 
   @override
   Widget build(BuildContext context){
-    int startNumber = int.parse(startControl.text);
-    int endNumber = int.parse(endControl.text);
-    if (endNumber-startNumber-1 <= 0){
-      startNumber = 0;
-      endNumber = 10;
-    }
-    int number = Random().nextInt(endNumber-startNumber)+startNumber;
     String result = "";
     if (playercontrol.text == number.toString()){
       result = "ganhou";
-    }
-    else{
-      result = "";
-    }
+      setState(() {
+        number = Random().nextInt(endNumber-startNumber)+startNumber;
+      });
+      }
      
     return Scaffold(
       appBar:AppBar(
@@ -77,6 +72,11 @@ class _GuessGame extends State<GuessGame>{
                         startNumber = int.parse(startControl.text);
                         endNumber = int.parse(endControl.text);
                         setState(() {
+                          if (endNumber-startNumber-1 <= 0){
+                            startNumber = 0;
+                            endNumber = 10;
+                          }
+                          number = Random().nextInt(endNumber-startNumber)+startNumber;
                           Navigator.pop(context);
                         });
                       },
