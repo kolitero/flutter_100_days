@@ -91,55 +91,41 @@ class _HomePage extends State<HomePage>{
     );
   }
   void generatePassword(){
-    String pass = "";
+    List<String> pass = [];
     List<String> abc = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
     List<String> numbers = ["0","1","2","3","4","5","6","7","8","9"];
-    List<String> sybols = ["@","#","&","!"];
+    List<String> sybols = ["@","#"];
+    String word = ""; 
     int chars = 24;
-    bool valid = false;
-    bool validnumber = true;
-    bool validsybol = true;
     if(number){
       chars += 10;
       abc.addAll(numbers);
     }
     if(sybol){
-      chars += 4;
+      chars += 2;
       abc.addAll(sybols);
     }
-    while(!valid){
-      for(int x = 0;x < passwordLenght;x++){
-        int random = Random().nextInt(chars);
-        pass += abc[random];
-      }
-      if(number){
-        validnumber = false;
-        for(int x = 0;x < passwordLenght;x++){
-          for(String char in numbers){
-            if (char == pass[x]){
-              validnumber = true;
-              break;
-            }
-          }
-        }
-      }
-      if(sybol){
-        validsybol = false;
-        for(int x = 0;x < passwordLenght;x++){
-          for(String char in sybols){
-            if (char == pass[x]){
-              validsybol = true;
-              break;
-            }
-          }
-        }
-      }
-      if(validsybol && validnumber) {
-         valid = true;
-      }
+    for(int x = 0;x < passwordLenght;x++){
+      int random = Random().nextInt(chars);
+      pass.add(abc[random]);
+    }
+    int? randomn;
+    if(number){
+      int randomn = Random().nextInt(passwordLenght.round());
+      pass[randomn] = numbers[randomn%10];
+    }
+    int? randoms;
+    if(sybol){
+      do{
+        int randoms = Random().nextInt(passwordLenght.round());
+        pass[randoms] = sybols[(randomn ?? 4)%4];
+      }while(randoms  == (randomn ?? ""));
+    }
+    for(int x = 0;x < passwordLenght;x++){
+      word += pass[x];
     }
     setState(() {
-        password = pass;
+        password = word;
       });
   }
 }
