@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -96,7 +94,7 @@ class _HomePage extends State<HomePage>{
     List<String> numbers = ["0","1","2","3","4","5","6","7","8","9"];
     List<String> sybols = ["@","#"];
     String word = ""; 
-    int chars = 24;
+    int chars = 26;
     if(number){
       chars += 10;
       abc.addAll(numbers);
