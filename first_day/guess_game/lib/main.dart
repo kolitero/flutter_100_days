@@ -31,18 +31,10 @@ class _GuessGame extends State<GuessGame>{
   int startNumber = 0;
   int endNumber = 10;
   int number = Random().nextInt(10);
-
+  String result = "";
 
   @override
   Widget build(BuildContext context){
-    String result = "";
-    if (playercontrol.text == number.toString()){
-      result = "ganhou";
-      setState(() {
-        number = Random().nextInt(endNumber-startNumber)+startNumber;
-      });
-      }
-     
     return Scaffold(
       appBar:AppBar(
         title:const Text("guess game"),
@@ -94,16 +86,32 @@ class _GuessGame extends State<GuessGame>{
       body:Center(
         child:Column(
           children: <Widget>[
-            Text("min $startNumber"),
-            Text("max:$endNumber"),
+            Container(
+              padding:const EdgeInsets.only(left: 5),
+              alignment: Alignment.centerLeft,
+              child: Text("min $startNumber"),
+              ),
+            Container(
+            padding:const EdgeInsets.only(left: 5),
+            alignment: Alignment.centerLeft,
+            child: Text("max:$endNumber"),
+            ),
             TextField(
               controller: playercontrol,
+
             ),
             TextButton(
               child:const Text("press"),
               onPressed: (){
                 setState(() {
-                  
+                  if (playercontrol.text == number.toString()){
+                    result = "ganhou";
+                    number = Random().nextInt(endNumber-startNumber)+startNumber;
+                    }
+                  else{
+                    result = "errado";
+                  }
+                  playercontrol.clear();
                 });
               },
             ),
