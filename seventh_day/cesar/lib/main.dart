@@ -35,71 +35,78 @@ class _HomeState extends State<Home> {
       },
       child: Scaffold(
         body:Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _controlerOne,
-                maxLines: 4,
-                decoration:const InputDecoration(
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(width: 10)
-                  ),
-                ),
-                focusNode: focus1,
-                onTap: (() {
-                  if(focus1.hasFocus){
-                    FocusScope.of(context).unfocus();
-                  }
-                }),
-              ),
-              Row(
-                children: [
-                  OutlinedButton.icon(
-                    onPressed:(){
-                      setState(() {
-                        FocusScope.of(context).unfocus();
-                        String aux = _controlerOne.text;
-                        _controlerOne.text = _controlerTwo.text;
-                        _controlerTwo.text = aux;
-                      });
-                    },
-                    icon:const Icon(Icons.rotate_left_rounded),
-                    label:const Text("trocar"),
+          padding:EdgeInsets.only(
+            left: 10,
+            right: 10,
+            top: MediaQuery.of(context).size.height/10,
+            bottom: 10
+          ),
+          child:SingleChildScrollView(
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: _controlerOne,
+                  maxLines: 4,
+                  decoration:const InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(width: 10)
                     ),
-                    OutlinedButton(
-                      onPressed:cesar,
-                      child: const Text("confrimar")
-                    ),
-                    Tooltip(
-                      message: "traduzir",
-                      child: Checkbox(
-                        value: trans, 
-                        onChanged:(bool? value){
-                          setState(() {
-                            FocusScope.of(context).unfocus();
-                            trans = value ?? false;
-                          });
-                        }),
-                    )
-                ],
-              ),
-              TextFormField(
-                focusNode: focus2,
-                controller: _controlerTwo,
-                maxLines: 4,
-                decoration:const InputDecoration(
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(width: 10)
                   ),
+                  focusNode: focus1,
+                  onTap: (() {
+                    if(focus1.hasFocus){
+                      FocusScope.of(context).unfocus();
+                    }
+                  }),
                 ),
-                onTap: (() {
-                  if(focus2.hasFocus){
-                    FocusScope.of(context).unfocus();
-                  }
-                }),
-              ),
-            ],
+                Row(
+                  children: [
+                    OutlinedButton.icon(
+                      onPressed:(){
+                        setState(() {
+                          FocusScope.of(context).unfocus();
+                          String aux = _controlerOne.text;
+                          _controlerOne.text = _controlerTwo.text;
+                          _controlerTwo.text = aux;
+                        });
+                      },
+                      icon:const Icon(Icons.rotate_left_rounded),
+                      label:const Text("trocar"),
+                      ),
+                      OutlinedButton(
+                        onPressed:cesar,
+                        child: const Text("confrimar")
+                      ),
+                      Tooltip(
+                        message: "traduzir",
+                        child: Checkbox(
+                          value: trans, 
+                          onChanged:(bool? value){
+                            setState(() {
+                              FocusScope.of(context).unfocus();
+                              trans = value ?? false;
+                            });
+                          }),
+                      )
+                  ],
+                ),
+                TextFormField(
+                  focusNode: focus2,
+                  controller: _controlerTwo,
+                  maxLines: 4,
+                  decoration:const InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(width: 10)
+                    ),
+                  ),
+                  onTap: (() {
+                    if(focus2.hasFocus){
+                      FocusScope.of(context).unfocus();
+                    }
+                  }),
+                ),
+              ],
+            ),
           ),
         )
       ),
@@ -111,18 +118,28 @@ class _HomeState extends State<Home> {
     String translate = "";
     if(!(trans)){
       for(int x = 0;x < raw.length;x++){
+        bool noWord = true; 
         for(int y = 0;y < abc.length;y++){
-          if(raw[x] == abc[y]){
+          if(raw[x].toLowerCase() == abc[y]){
             translate += abc[(y+3)%26];
+            noWord = false;
           }
+        }
+        if(noWord){
+          translate += raw[x];
         }
       }
     }else{
       for(int x = 0;x < raw.length;x++){
+        bool noWord = true; 
         for(int y = 0;y < abc.length;y++){
-          if(raw[x] == abc[y]){
+          if(raw[x].toLowerCase() == abc[y]){
             translate += abc[(y+23)%26];
+            noWord = false;
           }
+        }
+        if(noWord){
+          translate += raw[x];
         }
       }
     }
